@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.custom-image {
+  width: 406px;
+  height: 228px;
+}
+
+.dropzone-card {
+  width: 100% !important;
+  background-color: #f8fafd !important;
+  border: 0.125rem dashed rgba(231, 234, 243, .7) !important;
+  border-radius: 0.5rem !important;
+  padding: 3rem !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  height: auto !important;
+
+  align-items: center;
+  background: #fff;
+  cursor: pointer;
+  color: #717386;
+  font-size: 16px;
+  overflow-x: auto;
+}
+
+/* @layer utilities { */
+/* 
+    .dark {
+        .card-background {
+          @apply bg-black;
+        }
+      }
+*/
+
+.dark\:ql-snow {
+  color: white;
+  /* @apply text-white; */
+}
+
+
+.dark\:ql-toolbar .dark\:ql-stroke {
+  fill: none;
+  stroke: #fff;
+}
+
+.dark\:ql-toolbar .dark\:ql-fill {
+  fill: #fff !important;
+  stroke: none;
+}
+
+.dark\:ql-toolbar .dark\:ql-picker {
+  color: #fff;
+}
