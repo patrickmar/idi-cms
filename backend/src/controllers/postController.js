@@ -2,14 +2,13 @@ const asyncHandler = require('express-async-handler');
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
 const cloudinary = require('../config/cloudinary');
-//const Buffer = require('buffer')
 
 // get all posts
 const getPosts = asyncHandler(async (req, res) => {
-  if (!req.user.id) {
-    res.status(400);
-    throw new Error('No authorization token');
-  }
+  // if (!req.user.id) {
+  //   res.status(400);
+  //   throw new Error('No authorization token');
+  // }
   const posts = await Post.find().populate('user', {
     firstName: 1,
     lastName: 2,
@@ -25,7 +24,7 @@ const getPosts = asyncHandler(async (req, res) => {
   });
 });
 
-// get all posts
+// get post
 const getPost = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
@@ -54,13 +53,7 @@ const getPost = asyncHandler(async (req, res) => {
 
 //create all posts
 const createPost = asyncHandler(async (req, res) => {
-  // console.log(req.files);
-  // if(!req.files.image){
-  //         res.status(400)
-  //         throw new Error('File not uploaded');
-  // }
   if (!req.body) {
-    // res.status(400).json({message: 'Please add a text field' })
     res.status(400);
     throw new Error('Please add all fields');
   }
@@ -69,7 +62,6 @@ const createPost = asyncHandler(async (req, res) => {
     throw new Error('No authorization token');
   }
   const { title, description, image, category, tags, excerpt } = req.body;
-  //const file = req.files.image.tempFilePath
   if (!image) {
     res.status(400);
     throw new Error('Image not uploaded');
@@ -77,7 +69,6 @@ const createPost = asyncHandler(async (req, res) => {
   const result = await cloudinary.uploader.upload(image, {
     folder: 'posts',
   });
-  //const params = { title: req.body.title, description: req.body.description, category: req.body.category, image: req.body.image, user: req.user.id }
   const params = {
     title,
     description,
