@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { logout } from "../features/auth/authSlice";
 
 const Sidebar = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const location = useLocation();
   const { user, isSuccess, isError } = useSelector((state) => state.auth);
-  const [openSidebar, setOpenSidebar] = useState(false);
   const [privateRoute, setPrivateRoute] = useState(false);
   const [auth, setAuth] = useState(false);
 
