@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import moment from 'moment';
-import { FaEdit, FaEllipsisH, FaTrash } from 'react-icons/fa';
-import { Button, Dropdown, Modal } from 'flowbite-react';
-import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import { useDispatch, useSelector } from 'react-redux';
-import { remove, reset, fetch } from '../../features/post/postSlice';
-import avatar from '../../assets/imgs/img1.jpg';
-import Main from '../../components/Main';
-import Breadcrumb from '../../components/Breadcrumb';
-import FullLoader from '../../components/FullLoader';
-import ButtonLoader from '../../components/ButtonLoader';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import moment from "moment";
+import { FaEdit, FaEllipsisH, FaTrash } from "react-icons/fa";
+import { Button, Dropdown, Modal } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { remove, reset, fetch } from "../../features/post/postSlice";
+import avatar from "../../assets/imgs/img1.jpg";
+import Main from "../../components/Main";
+import Breadcrumb from "../../components/Breadcrumb";
+import FullLoader from "../../components/FullLoader";
+import ButtonLoader from "../../components/ButtonLoader";
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [openModal, setOpenModal] = useState();
-  const [modalId, setModalId] = useState('');
+  const [modalId, setModalId] = useState("");
   const props = { openModal, setOpenModal, modalId, setModalId };
   const dispatch = useDispatch();
 
   const getDate = (date) => {
-    const newDate = moment(date).format('dddd, MMMM Do YYYY');
+    const newDate = moment(date).format("dddd, MMMM Do YYYY");
     return newDate;
   };
 
   const setModalPostId = (id) => {
-    props.setOpenModal('pop-up');
+    props.setOpenModal("pop-up");
     setModalId(id);
   };
 
@@ -68,7 +68,7 @@ const Blog = () => {
   return (
     <Main>
       <div className="mb-4 col-span-full xl:mb-2">
-        <Breadcrumb label={'Blogs'} label2={'All Blogs'} />
+        <Breadcrumb label={"Blogs"} label2={"All Blogs"} />
         <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
           All Blogs
         </h1>
@@ -77,7 +77,7 @@ const Blog = () => {
       <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
         <div className="flex items-center mb-4 sm:mb-0"></div>
         <Link
-          to={'/add-blog'}
+          to={"/add-blog"}
           className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
         >
           Add new Blog
@@ -140,11 +140,13 @@ const Blog = () => {
                 <div className="flex items-center space-x-4">
                   <img
                     className="w-7 h-7 rounded-full"
-                    src={post.user.image.url ? post.user.image.url : avatar}
-                    alt={post.user.firstName + ' ' + post.user.lastName}
+                    src={
+                      post?.user?.image.url ? post?.user?.image?.url : avatar
+                    }
+                    alt={post?.user?.firstName + " " + post?.user?.lastName}
                   />
                   <span className="font-medium dark:text-white">
-                    {post.user.firstName + ' ' + post.user.lastName}
+                    {post.user.firstName + " " + post.user.lastName}
                   </span>
                 </div>
 
@@ -157,18 +159,18 @@ const Blog = () => {
                   <Dropdown.Item
                     icon={FaEdit}
                     as={Link}
-                    to={'/edit-blog/' + post._id}
+                    to={"/edit-blog/" + post._id}
                   >
-                    {' '}
-                    <span>{'Edit'} </span>{' '}
+                    {" "}
+                    <span>{"Edit"} </span>{" "}
                   </Dropdown.Item>
                   <Dropdown.Item
                     className="text-red-600"
                     icon={FaTrash}
-                    as={'button'}
+                    as={"button"}
                     onClick={() => setModalPostId(post._id)}
                   >
-                    <span>{'   Delete'}</span>{' '}
+                    <span>{"   Delete"}</span>{" "}
                   </Dropdown.Item>
                 </Dropdown>
               </div>
@@ -177,7 +179,7 @@ const Blog = () => {
       </div>
 
       <Modal
-        show={props.openModal === 'pop-up'}
+        show={props.openModal === "pop-up"}
         size="md"
         popup
         onClose={() => props.setOpenModal(undefined)}
@@ -194,7 +196,7 @@ const Blog = () => {
                 type="button"
                 disabled={isLoading}
                 className={`${
-                  isLoading ? 'cursor-not-allowed bg-red-400 opacity-25' : ''
+                  isLoading ? "cursor-not-allowed bg-red-400 opacity-25" : ""
                 } inline-flex items-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none 
                             focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 
                             dark:focus:ring-red-900`}
