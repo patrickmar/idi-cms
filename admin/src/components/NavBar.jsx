@@ -61,15 +61,7 @@ const NavBar = ({ userData, openSidebar, onSidebarOpen, onSidebarClose }) => {
       navigate("/", { state: { from: location?.pathname }, replace: true });
     }
     dispatch(reset());
-  }, [
-    location?.pathname,
-    navigate,
-    user,
-    isSuccess,
-    isError,
-    message,
-    dispatch,
-  ]);
+  }, [user, isSuccess, isError, message, dispatch]);
 
   if (isLoading) {
     return <FullLoader />;

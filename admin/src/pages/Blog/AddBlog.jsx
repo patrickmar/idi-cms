@@ -36,9 +36,9 @@ const AddBlog = () => {
   const onChange = (e, i) => {
     const values = formData.tags;
     if (e.target.name === "tags") {
-      if (e.target.checked == true) {
+      if (e.target.checked === true) {
         values.push(e.target.value);
-      } else if (e.target.checked == false) {
+      } else if (e.target.checked === false) {
         //values.splice(i, 1);
         values.splice(values.indexOf(e.target.value), 1);
       }
@@ -367,7 +367,7 @@ const AddBlog = () => {
                     <img
                       className="img-fluid my-4"
                       src={image}
-                      alt="Post image"
+                      alt="alternative to title"
                     />
                   </>
                 ) : (

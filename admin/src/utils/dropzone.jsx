@@ -8,22 +8,25 @@ const Dropzone = (props) => {
   const [files, setFiles] = useState([]);
   const [rejected, setRejected] = useState([]);
 
-  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
-    if (acceptedFiles?.length) {
-      setFiles((previousFiles) => [
-        ...previousFiles,
-        ...acceptedFiles.map((file) =>
-          Object.assign(file, { preview: URL.createObjectURL(file) })
-        ),
-      ]);
+  const onDrop = useCallback(
+    (acceptedFiles, rejectedFiles) => {
+      if (acceptedFiles?.length) {
+        setFiles((previousFiles) => [
+          ...previousFiles,
+          ...acceptedFiles.map((file) =>
+            Object.assign(file, { preview: URL.createObjectURL(file) })
+          ),
+        ]);
 
-      onDropHandler(acceptedFiles);
-    }
+        onDropHandler(acceptedFiles);
+      }
 
-    if (rejectedFiles?.length) {
-      setRejected((previousFiles) => [...previousFiles, ...rejectedFiles]);
-    }
-  }, []);
+      if (rejectedFiles?.length) {
+        setRejected((previousFiles) => [...previousFiles, ...rejectedFiles]);
+      }
+    },
+    [onDropHandler]
+  );
 
   const onDropHandler = (files) => {
     const images = [];
@@ -62,9 +65,9 @@ const Dropzone = (props) => {
     setRejected([]);
   };
 
-  // const removeRejected = (name) => {
-  //   setRejected((files) => files.filter(({ file }) => file.name !== name));
-  // };
+  const removeRejected = (name) => {
+    setRejected((files) => files.filter(({ file }) => file.name !== name));
+  };
 
   return (
     <>
@@ -144,18 +147,18 @@ const Dropzone = (props) => {
         </ul>
 
         {/* Rejected Files */}
-        {/* <h3 className="title text-lg font-semibold text-neutral-600 mt-24 border-b pb-3">
+        <h3 className="title text-lg font-semibold text-neutral-600 mt-24 border-b pb-3">
           Rejected Files
         </h3>
         <ul className="mt-6 flex flex-col">
-          {rejected.map(({ file, errors }: any) => (
+          {rejected.map(({ file, errors }) => (
             <li key={file.name} className="flex items-start justify-between">
               <div>
                 <p className="mt-2 text-neutral-500 text-sm font-medium">
                   {file.name}
                 </p>
                 <ul className="text-[12px] text-red-400">
-                  {errors.map((error: any) => (
+                  {errors.map((error) => (
                     <li key={error.code}>{error.message}</li>
                   ))}
                 </ul>
@@ -169,7 +172,7 @@ const Dropzone = (props) => {
               </button>
             </li>
           ))}
-        </ul> */}
+        </ul>
       </section>
     </>
   );

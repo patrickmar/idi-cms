@@ -11,8 +11,6 @@ import ButtonLoader from "../../components/ButtonLoader";
 import Main from "../../components/Main";
 import Breadcrumb from "../../components/Breadcrumb";
 import FullLoader from "../../components/FullLoader";
-import { FaArrowLeft } from "react-icons/fa";
-// import { Buffer } from 'buffer';
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const EditBlog = () => {
