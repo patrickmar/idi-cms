@@ -1,63 +1,37 @@
-const cloudinary = require('../config/cloudinary');
-const asyncHandler = require('express-async-handler');
-const VideoPost = require('../models/VideoPost');
-// const createVlog = async (req, res) => {
-//   try {
-//     // Extract data from the request body
-//     const { title, category, image, youtubelink } = req.body;
-
-//     // Upload the image file to Cloudinary
-//     const result = await cloudinary.uploader.upload(image, {
-//       folder: 'posts',
-//     });
-//     // Create a new video post in the database
-//     const newVlog = new videoPost({
-//       title,
-//       category,
-//       image: {
-//         public_id: result.public_id,
-//         url: result.secure_url,
-//       },
-//       youtubelink,
-//       updatedBy: req.user.id, // Assuming you have authentication middleware setting req.user.id
-//       user: req.user.id,
-//     });
-
-//     // Save the new vlog post
-//     const savedVlog = await newVlog.save();
-
-//     res.status(201).json(savedVlog);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// };
-
-// module.exports = { createVlog };
+const cloudinary = require("../config/cloudinary");
+const asyncHandler = require("express-async-handler");
+const VideoPost = require("../models/vlogModel");
 
 const createVlog = asyncHandler(async (req, res) => {
   if (!req.body) {
     res.status(400);
-    throw new Error('Please add all fields');
+    throw new Error("Please add all fields");
   }
 
   if (!req.user.id) {
     res.status(400);
-    throw new Error('No authorization token');
+    throw new Error("No authorization token");
   }
 
-  const { title, image, category, youtubrlink } = req.body;
+  const { title, image, category, tags, description, youtubeLink } = req.body;
   if (!image) {
     res.status(400);
-    throw new Error('Image not uploaded');
+    throw new Error("Image cannot be empty");
   }
+  if (!youtubeLink) {
+    res.status(400);
+    throw new Error("Youtube link cannot be empty");
+  }
+
   const result = await cloudinary.uploader.upload(image, {
-    folder: 'posts',
+    folder: "posts",
   });
   const params = {
     title,
     category,
-    youtubrlink,
+    youtubeLink,
+    tags,
+    description,
     user: req.user.id,
     updatedBy: req.user.id,
     image: {
@@ -69,9 +43,25 @@ const createVlog = asyncHandler(async (req, res) => {
   const videoPost = await VideoPost.create(params);
   res.status(201).json({
     success: true,
-    message: 'videoPost created successfully',
+    message: "video post created successfully",
     data: videoPost,
   });
 });
 
-module.exports = { createVlog };
+const fetchVlog = asyncHandler(async (req, res) => {
+  const posts = await VideoPost.find().populate("user", {
+    firstName: 1,
+    lastName: 2,
+    email: 3,
+    image: 4,
+    role: 5,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Vlogs fetched successfully",
+    data: posts,
+  });
+});
+
+module.exports = { createVlog, fetchVlog };

@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { Sidebar } from 'flowbite-react';
+import React, { Fragment } from "react";
+import { Sidebar } from "flowbite-react";
 import {
   HiChartPie,
   HiInbox,
@@ -7,51 +7,49 @@ import {
   HiUser,
   HiViewBoards,
   HiAnnotation,
-} from 'react-icons/hi';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { FaYoutube } from 'react-icons/fa6';
+} from "react-icons/hi";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Aside4 = ({ userData, open }) => {
   const menus = [
     {
-      name: 'Dashboard',
-      link: '/dashboard',
+      name: "Dashboard",
+      link: "/dashboard",
       icon: HiChartPie,
     },
     {
-      name: 'Blogs',
+      name: "Blogs",
       icon: HiNewspaper,
       submenu: [
         {
-          name: 'Blog',
-          link: '/blogs',
+          name: "View Blogs",
+          link: "/blogs",
         },
         {
-          name: 'Create Blog',
-          link: '/add-blog',
+          name: "Create Blog",
+          link: "/add-blog",
+        },
+        {
+          name: "Create Vlog",
+          link: "/add-blog?type=vlog",
         },
       ],
     },
     {
-      name: 'Profile',
-      link: '/profile',
+      name: "Profile",
+      link: "/profile",
       icon: HiViewBoards,
     },
     {
-      name: 'Inbox',
-      link: '/inbox',
+      name: "Inbox",
+      link: "/inbox",
       icon: HiInbox,
     },
     {
-      name: 'Users',
-      link: '/users',
+      name: "Users",
+      link: "/users",
       icon: HiUser,
-    },
-    {
-      name: 'Youtube Video',
-      link: 'https://www.youtube.com/watch?v=xXHoQAuW90s',
-      icon: FaYoutube,
     },
   ];
   return (
@@ -59,7 +57,7 @@ const Aside4 = ({ userData, open }) => {
       {userData !== null && (
         <Sidebar
           className={`fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 w-64 h-full pt-16 font-normal duration-75 lg:flex transition-width ${
-            open ? 'block' : 'hidden'
+            open ? "block" : "hidden"
           } `}
         >
           <Sidebar.Items>
@@ -106,8 +104,8 @@ const Aside4 = ({ userData, open }) => {
                     </Sidebar.Collapse>
                   ) : (
                     <Sidebar.Item icon={menu.icon} as={Link} to={menu.link}>
-                      {' '}
-                      {menu.name}{' '}
+                      {" "}
+                      {menu.name}{" "}
                     </Sidebar.Item>
                   )}
                 </Fragment>

@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const {
   getPosts,
@@ -6,12 +6,12 @@ const {
   updatePost,
   deletePost,
   getPost,
-} = require('../controllers/postController');
-const { protect } = require('../middleware/authMiddleware');
+} = require("../controllers/postController");
+const { protect } = require("../middleware/authMiddleware");
 
-router.route('/').get(getPosts).post(protect, createPost);
-router.route('/:id').put(protect, updatePost).delete(protect, deletePost);
-router.route('/:id').get(protect, getPost);
+router.route("/").get(getPosts).post(protect, createPost);
+router.route("/:id").put(protect, updatePost).delete(protect, deletePost);
+router.route("/:id").get(getPost);
 
 // code on line 5 and 6 is the same as line 10 to 13
 

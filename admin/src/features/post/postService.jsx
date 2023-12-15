@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { get } from '../../utils/storage';
-import AuthConstants from '../../config/authConstant';
+import axios from "axios";
+import { get } from "../../utils/storage";
+import AuthConstants from "../../config/authConstant";
 
 //const user = get(AuthConstants()) //!= false ? get(AuthConstants()) : JSON.parse(unescape(atob(localStorage.getItem('user'))));
 
@@ -13,7 +13,7 @@ const baseUrl = process.env.REACT_APP_BASEURL;
 
 const create = async (data) => {
   const user = get(AuthConstants());
-  const response = await axios.post(baseUrl + '/api/posts/', data, {
+  const response = await axios.post(baseUrl + "/api/posts/", data, {
     headers: { Authorization: `Bearer ${user.token}` },
   });
   return response.data;
@@ -21,7 +21,7 @@ const create = async (data) => {
 
 const update = async (id, data) => {
   const user = get(AuthConstants());
-  const response = await axios.put(baseUrl + '/api/posts/' + id, data, {
+  const response = await axios.put(baseUrl + "/api/posts/" + id, data, {
     headers: { Authorization: `Bearer ${user.token}` },
   });
   return response.data;
@@ -30,7 +30,7 @@ const update = async (id, data) => {
 const fetch = async () => {
   const user = get(AuthConstants());
   console.log(user.token);
-  const response = await axios.get(baseUrl + '/api/posts/', {
+  const response = await axios.get(baseUrl + "/api/posts/", {
     headers: { Authorization: `Bearer ${user.token}` },
   });
   return response.data;
@@ -38,7 +38,7 @@ const fetch = async () => {
 
 const fetchOne = async (id) => {
   const user = get(AuthConstants());
-  const response = await axios.get(baseUrl + '/api/posts/' + id, {
+  const response = await axios.get(baseUrl + "/api/posts/" + id, {
     headers: { Authorization: `Bearer ${user.token}` },
   });
   return response.data;
@@ -46,7 +46,48 @@ const fetchOne = async (id) => {
 
 const remove = async (id) => {
   const user = get(AuthConstants());
-  const response = await axios.delete(baseUrl + '/api/posts/' + id, {
+  const response = await axios.delete(baseUrl + "/api/posts/" + id, {
+    headers: { Authorization: `Bearer ${user.token}` },
+  });
+  return response.data;
+};
+
+const createVideo = async (data) => {
+  const user = get(AuthConstants());
+  const response = await axios.post(baseUrl + "/api/vlog", data, {
+    headers: { Authorization: `Bearer ${user.token}` },
+  });
+  return response.data;
+};
+
+const updateVideo = async (id, data) => {
+  const user = get(AuthConstants());
+  const response = await axios.put(baseUrl + "/api/vlog/" + id, data, {
+    headers: { Authorization: `Bearer ${user.token}` },
+  });
+  return response.data;
+};
+
+const fetchVideo = async () => {
+  const user = get(AuthConstants());
+  console.log(user.token);
+  const response = await axios.get(baseUrl + "/api/vlog/", {
+    headers: { Authorization: `Bearer ${user.token}` },
+  });
+  return response.data;
+};
+
+const fetchOneVideo = async (id) => {
+  const user = get(AuthConstants());
+  const response = await axios.get(baseUrl + "/api/vlog/" + id, {
+    headers: { Authorization: `Bearer ${user.token}` },
+  });
+  return response.data;
+};
+
+const removeVideo = async (id) => {
+  const user = get(AuthConstants());
+  const response = await axios.delete(baseUrl + "/api/vlog/" + id, {
     headers: { Authorization: `Bearer ${user.token}` },
   });
   return response.data;
@@ -58,6 +99,11 @@ const postService = {
   fetchOne,
   update,
   remove,
+  createVideo,
+  fetchVideo,
+  fetchOneVideo,
+  updateVideo,
+  removeVideo,
 };
 
 export default postService;

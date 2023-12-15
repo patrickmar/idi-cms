@@ -1,7 +1,8 @@
-const asyncHandler = require('express-async-handler');
-const Post = require('../models/postModel');
-const User = require('../models/userModel');
-const cloudinary = require('../config/cloudinary');
+const asyncHandler = require("express-async-handler");
+const Post = require("../models/postModel");
+const User = require("../models/userModel");
+const cloudinary = require("../config/cloudinary");
+const { uploadImages } = require("../utils/uploadService");
 
 // get all posts
 const getPosts = asyncHandler(async (req, res) => {
@@ -9,7 +10,7 @@ const getPosts = asyncHandler(async (req, res) => {
   //   res.status(400);
   //   throw new Error('No authorization token');
   // }
-  const posts = await Post.find().populate('user', {
+  const posts = await Post.find().populate("user", {
     firstName: 1,
     lastName: 2,
     email: 3,
@@ -19,7 +20,7 @@ const getPosts = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: 'Posts fetched successfully',
+    message: "Posts fetched successfully",
     data: posts,
   });
 });
@@ -30,15 +31,15 @@ const getPost = asyncHandler(async (req, res) => {
 
   if (!id) {
     res.status(400);
-    throw new Error('Please provide a post id');
+    throw new Error("Please provide a post id");
   }
 
-  if (!req.user.id) {
-    res.status(400);
-    throw new Error('No authorization token');
-  }
+  // if (!req.user.id) {
+  //   res.status(400);
+  //   throw new Error('No authorization token');
+  // }
 
-  const post = await Post.findById(id).populate('user', {
+  const post = await Post.findById(id).populate("user", {
     firstName: 1,
     lastName: 2,
     email: 3,
@@ -48,45 +49,64 @@ const getPost = asyncHandler(async (req, res) => {
 
   res
     .status(200)
-    .json({ success: true, message: 'Post fetched successfully', data: post });
+    .json({ success: true, message: "Post fetched successfully", data: post });
 });
 
 //create all posts
 const createPost = asyncHandler(async (req, res) => {
   if (!req.body) {
     res.status(400);
-    throw new Error('Please add all fields');
+    throw new Error("Please add all fields");
   }
   if (!req.user.id) {
     res.status(400);
-    throw new Error('No authorization token');
+    throw new Error("No authorization token");
   }
-  const { title, description, image, category, tags, excerpt } = req.body;
+  const { title, description, image, banners, category, tags, excerpt } =
+    req.body;
   if (!image) {
     res.status(400);
-    throw new Error('Image not uploaded');
+    throw new Error("Image can not be empty");
   }
-  const result = await cloudinary.uploader.upload(image, {
-    folder: 'posts',
-  });
-  const params = {
-    title,
-    description,
-    category,
-    excerpt,
-    tags,
-    user: req.user.id,
-    updatedBy: req.user.id,
-    image: {
-      public_id: result.public_id,
-      url: result.secure_url,
-    },
-  };
 
-  const post = await Post.create(params);
-  res
-    .status(201)
-    .json({ success: true, message: 'Post created successfully', data: post });
+  if (!banners || !Array.isArray(banners) || banners.length === 0) {
+    res.status(400);
+    throw new Error("Article banner can not be empty");
+  }
+
+  try {
+    const result = await cloudinary.uploader.upload(image, {
+      folder: "posts",
+    });
+
+    const folder = "articles";
+    const uploadedBanners = await uploadImages(banners, folder);
+
+    const params = {
+      title,
+      description,
+      category,
+      excerpt,
+      tags,
+      user: req.user.id,
+      updatedBy: req.user.id,
+      image: {
+        public_id: result.public_id,
+        url: result.secure_url,
+      },
+      banners: uploadedBanners,
+    };
+
+    const post = await Post.create(params);
+    res.status(201).json({
+      success: true,
+      message: "Post created successfully",
+      data: post,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
+  }
 });
 
 //update post
@@ -95,21 +115,21 @@ const updatePost = asyncHandler(async (req, res) => {
 
   if (!id) {
     res.status(400);
-    throw new Error('Please provide a post id');
+    throw new Error("Please provide a post id");
   } else if (!req.body) {
     res.status(400);
-    throw new Error('Please provide at least a field');
+    throw new Error("Please provide at least a field");
   } else {
     const post = await Post.findById(id);
     if (!post) {
       res.status(404);
-      throw new Error('Post not found');
+      throw new Error("Post not found");
     } else {
       // check for user
       const user = await User.findById(req.user.id);
       if (!user) {
         res.status(401);
-        throw new Error('User does not exist');
+        throw new Error("User does not exist");
       }
 
       const { title, description, image, category, tags, excerpt } = req.body;
@@ -128,7 +148,7 @@ const updatePost = asyncHandler(async (req, res) => {
       //     return check
       // }
 
-      if (image !== '') {
+      if (image !== "") {
         // if (validateImage(image)) {
         const ImgId = post.image.public_id;
         if (ImgId) {
@@ -136,7 +156,7 @@ const updatePost = asyncHandler(async (req, res) => {
         }
 
         const newImage = await cloudinary.uploader.upload(image, {
-          folder: 'posts',
+          folder: "posts",
         });
         newPost.image = {
           public_id: newImage.public_id,
@@ -151,7 +171,7 @@ const updatePost = asyncHandler(async (req, res) => {
       });
       res
         .status(200)
-        .json({ message: 'Post updated successfully', data: updatedPost });
+        .json({ message: "Post updated successfully", data: updatedPost });
     }
   }
 });
@@ -161,18 +181,18 @@ const deletePost = asyncHandler(async (req, res) => {
   const id = req.params.id;
   if (!id) {
     res.status(400);
-    throw new Error('Please provide a post id');
+    throw new Error("Please provide a post id");
   } else {
     const post = await Post.findById(id);
     if (!post) {
       res.status(404);
-      throw new Error('Post not found');
+      throw new Error("Post not found");
     } else {
       // check for user
       const user = await User.findById(req.user.id);
       if (!user) {
         res.status(401);
-        throw new Error('User does not exist');
+        throw new Error("User does not exist");
       }
 
       const postImage = post.image.public_id;
@@ -183,7 +203,7 @@ const deletePost = asyncHandler(async (req, res) => {
 
       //await post.remove(); remove function deprecated in new version.
       await post.deleteOne();
-      res.status(200).json({ message: 'Post deleted successfully' });
+      res.status(200).json({ message: "Post deleted successfully" });
     }
   }
 });
