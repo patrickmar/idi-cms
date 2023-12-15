@@ -8,25 +8,22 @@ const Dropzone = (props) => {
   const [files, setFiles] = useState([]);
   const [rejected, setRejected] = useState([]);
 
-  const onDrop = useCallback(
-    (acceptedFiles, rejectedFiles) => {
-      if (acceptedFiles?.length) {
-        setFiles((previousFiles) => [
-          ...previousFiles,
-          ...acceptedFiles.map((file) =>
-            Object.assign(file, { preview: URL.createObjectURL(file) })
-          ),
-        ]);
+  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+    if (acceptedFiles?.length) {
+      setFiles((previousFiles) => [
+        ...previousFiles,
+        ...acceptedFiles.map((file) =>
+          Object.assign(file, { preview: URL.createObjectURL(file) })
+        ),
+      ]);
 
-        onDropHandler(acceptedFiles);
-      }
+      onDropHandler(acceptedFiles);
+    }
 
-      if (rejectedFiles?.length) {
-        setRejected((previousFiles) => [...previousFiles, ...rejectedFiles]);
-      }
-    },
-    [onDropHandler]
-  );
+    if (rejectedFiles?.length) {
+      setRejected((previousFiles) => [...previousFiles, ...rejectedFiles]);
+    }
+  }, []);
 
   const onDropHandler = (files) => {
     const images = [];
@@ -65,9 +62,26 @@ const Dropzone = (props) => {
     setRejected([]);
   };
 
-  const removeRejected = (name) => {
-    setRejected((files) => files.filter(({ file }) => file.name !== name));
-  };
+  // const removeRejected = (name) => {
+  //   setRejected((files) => files.filter(({ file }) => file.name !== name));
+  // };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!files?.length) return;
+
+  //   const formData = new FormData();
+  //   files.forEach((file) => formData.append("file", file));
+  //   //formData.append("upload_preset", "value");
+
+  //   const URL = process.env.REACT_APP_CLOUDINARY_URL;
+  //   const data = await fetch(URL, {
+  //     method: "POST",
+  //     body: formData,
+  //   }).then((res) => res.json());
+
+  //   console.log(data);
+  // };
 
   return (
     <>
@@ -147,18 +161,18 @@ const Dropzone = (props) => {
         </ul>
 
         {/* Rejected Files */}
-        <h3 className="title text-lg font-semibold text-neutral-600 mt-24 border-b pb-3">
+        {/* <h3 className="title text-lg font-semibold text-neutral-600 mt-24 border-b pb-3">
           Rejected Files
         </h3>
         <ul className="mt-6 flex flex-col">
-          {rejected.map(({ file, errors }) => (
+          {rejected.map(({ file, errors }: any) => (
             <li key={file.name} className="flex items-start justify-between">
               <div>
                 <p className="mt-2 text-neutral-500 text-sm font-medium">
                   {file.name}
                 </p>
                 <ul className="text-[12px] text-red-400">
-                  {errors.map((error) => (
+                  {errors.map((error: any) => (
                     <li key={error.code}>{error.message}</li>
                   ))}
                 </ul>
@@ -172,7 +186,7 @@ const Dropzone = (props) => {
               </button>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </section>
     </>
   );

@@ -38,7 +38,7 @@ const Main = ({ children }) => {
     if (user != null) {
       setAuth(true);
     }
-  }, [user, auth, isSuccess, isError, location?.pathname]);
+  }, [user, auth, isSuccess, isError]);
 
   return (
     <>

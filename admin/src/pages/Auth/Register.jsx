@@ -52,15 +52,7 @@ const Register = () => {
     }
 
     dispatch(reset());
-  }, [
-    location?.pathname,
-    user,
-    isError,
-    isSuccess,
-    message,
-    navigate,
-    dispatch,
-  ]);
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({

@@ -132,11 +132,6 @@ const EditBlog = () => {
   };
 
   useEffect(() => {
-    //document.getElementById("the_body").classList.add('hold-transition, login-page');
-    //   if (document.querySelector(".test").classList.contains('block')) {
-    //     document.querySelector(".test").classList.add('john');
-    //  }
-
     dispatch(fetchOne(id));
   }, []);
 
@@ -249,7 +244,7 @@ const EditBlog = () => {
               </h3>
               <div className="mb-4">
                 <label
-                  htmlFor=""
+                  htmlFor="category"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Select Category
