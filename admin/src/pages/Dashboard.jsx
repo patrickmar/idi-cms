@@ -1,30 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import Main from '../components/Main';
-import Breadcrumb from '../components/Breadcrumb';
-import { Greeting } from '../utils/functions';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { fetch, reset } from '../features/post/postSlice';
+import React, { useEffect, useState } from "react";
+import Main from "../components/Main";
+import Breadcrumb from "../components/Breadcrumb";
+import { Greeting } from "../utils/functions";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { fetch, reset } from "../features/post/postSlice";
 import {
   fetch as fetchMail,
   reset as resetMail,
-} from '../features/mail/mailSlice';
+} from "../features/mail/mailSlice";
 // import { fetchAll, reset as resetProfile } from '../features/profile/profileSlice'
-import FullLoader from '../components/FullLoader';
-import { fetchAll, reset as resetUsers } from '../features/users/userSlice';
+import FullLoader from "../components/FullLoader";
+import { fetchAll, reset as resetUsers } from "../features/users/userSlice";
 
 const Dashboard = () => {
   const emptyCards = [
-    { name: '', length: '' },
-    { name: '', length: '' },
-    { name: '', length: '' },
-    { name: 'Reviews', length: 0 },
+    { name: "", length: "" },
+    { name: "", length: "" },
+    { name: "", length: "" },
+    { name: "Reviews", length: 0 },
   ];
   const [cards] = useState(emptyCards);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { data, isLoading, isFullLoading, isError, isSuccess, message } =
-    useSelector((state) => state.post);
+  const { data, isFullLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.post
+  );
   const mails = useSelector((state) => state.mail);
   const allUsers = useSelector((state) => state.users);
 
@@ -35,19 +36,19 @@ const Dashboard = () => {
 
     if (isSuccess && data != null) {
       const values = [...cards];
-      values[0].name = 'Posts';
+      values[0].name = "Posts";
       values[0].length = data.length;
     }
 
     if (mails.isSuccess && mails.data != null) {
       const values = [...cards];
-      values[1].name = 'Mails';
+      values[1].name = "Mails";
       values[1].length = mails.data.length;
     }
 
     if (allUsers.isSuccess && allUsers.data != null) {
       const values = [...cards];
-      values[2].name = 'Users';
+      values[2].name = "Users";
       values[2].length = allUsers.data.length;
     }
 
@@ -69,12 +70,12 @@ const Dashboard = () => {
   return (
     <Main>
       <div className="mb-4 col-span-full xl:mb-2">
-        <Breadcrumb label={'User'} label2={'Dashboard'} />
+        <Breadcrumb label={"User"} label2={"Dashboard"} />
         {/* <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Dashboard</h1> */}
       </div>
       <div>
         <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-          <Greeting /> {' ' + user.firstName}
+          <Greeting /> {" " + user.firstName}
         </h1>
       </div>
 

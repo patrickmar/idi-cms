@@ -12,6 +12,7 @@ const Footer = () => {
             href="https://atendiconsulting.com/"
             className="hover:underline"
             target="_blank"
+            rel="noreferrer"
           >
             Infrastructure Delivery International.
           </a>

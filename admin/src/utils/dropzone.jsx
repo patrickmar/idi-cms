@@ -1,6 +1,5 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { BiUpload } from "react-icons/bi";
 import { FaTimes } from "react-icons/fa";
 import { HiPhoto } from "react-icons/hi2";
 
@@ -63,26 +62,9 @@ const Dropzone = (props) => {
     setRejected([]);
   };
 
-  const removeRejected = (name) => {
-    setRejected((files) => files.filter(({ file }) => file.name !== name));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!files?.length) return;
-
-    const formData = new FormData();
-    files.forEach((file) => formData.append("file", file));
-    //formData.append("upload_preset", "value");
-
-    const URL = process.env.REACT_APP_CLOUDINARY_URL;
-    const data = await fetch(URL, {
-      method: "POST",
-      body: formData,
-    }).then((res) => res.json());
-
-    console.log(data);
-  };
+  // const removeRejected = (name) => {
+  //   setRejected((files) => files.filter(({ file }) => file.name !== name));
+  // };
 
   return (
     <>
@@ -109,7 +91,7 @@ const Dropzone = (props) => {
             <>
               <p>Drag & drop files here, or click to select files</p>
               <p className="text-xs leading-5 text-gray-600">
-                PNG, JPG, JPEG up to 10MB
+                PNG, JPG, JPEG up to 20MB
               </p>
             </>
           )}

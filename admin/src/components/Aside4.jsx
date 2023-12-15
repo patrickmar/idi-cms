@@ -6,7 +6,6 @@ import {
   HiNewspaper,
   HiUser,
   HiViewBoards,
-  HiAnnotation,
 } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -94,7 +93,7 @@ const Aside4 = ({ userData, open }) => {
               </Sidebar.Item>
               {menus.map((menu, i) => (
                 <Fragment key={i}>
-                  {menu.submenu != undefined && menu.submenu.length > 0 ? (
+                  {menu.submenu !== undefined && menu.submenu.length > 0 ? (
                     <Sidebar.Collapse icon={menu.icon} label={menu.name}>
                       {menu.submenu.map((sm, id) => (
                         <Sidebar.Item key={id} as={Link} to={sm.link}>

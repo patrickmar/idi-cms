@@ -1,24 +1,25 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Loader from './Loader'
+import React from "react";
+import PropTypes from "prop-types";
+import Loader from "./Loader";
 
-const ButtonLoader = ({ isLoading, text, loadingText}) => {
-    return (
+const ButtonLoader = ({ isLoading, text, loadingText }) => {
+  return (
+    <>
+      {isLoading ? (
         <>
-            {isLoading ? (
-                <>
-                    <Loader text={loadingText != undefined ? loadingText : undefined}/>
-                </>
-            ) : (
-                <span>{text}</span>
-            )}</>
-    )
-}
+          <Loader text={loadingText !== undefined ? loadingText : undefined} />
+        </>
+      ) : (
+        <span>{text}</span>
+      )}
+    </>
+  );
+};
 
 ButtonLoader.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    text: PropTypes.string.isRequired,
-    loadingText: PropTypes.string,
-}
+  isLoading: PropTypes.bool.isRequired,
+  text: PropTypes.string.isRequired,
+  loadingText: PropTypes.string,
+};
 
-export default ButtonLoader
+export default ButtonLoader;

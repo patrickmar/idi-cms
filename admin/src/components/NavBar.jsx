@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import logo from '../assets/imgs/logo.png';
-import { Avatar, Dropdown, Tooltip } from 'flowbite-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { get, removeItem, store } from '../utils/storage';
-import { logout, reset } from '../features/auth/authSlice';
-import avatar from '../assets/imgs/img1.jpg';
-import { toast } from 'react-toastify';
-import PropTypes from 'prop-types';
-import { FaMoon } from 'react-icons/fa';
-import { BiSun } from 'react-icons/bi';
-import FullLoader from './FullLoader';
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import logo from "../assets/imgs/logo.png";
+import { Avatar, Dropdown, Tooltip } from "flowbite-react";
+import { useDispatch, useSelector } from "react-redux";
+import { get, removeItem, store } from "../utils/storage";
+import { logout, reset } from "../features/auth/authSlice";
+import avatar from "../assets/imgs/img1.jpg";
+import { toast } from "react-toastify";
+import PropTypes from "prop-types";
+import { FaMoon } from "react-icons/fa";
+import { BiSun } from "react-icons/bi";
+import FullLoader from "./FullLoader";
 
 const NavBar = ({ userData, openSidebar, onSidebarOpen, onSidebarClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const storedTheme = get('theme');
-  const [theme, setTheme] = useState(storedTheme ? storedTheme : 'system');
+  const storedTheme = get("theme");
+  const [theme, setTheme] = useState(storedTheme ? storedTheme : "system");
   const element = document.documentElement;
-  const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
   useEffect(() => {
     if (
-      get('theme') === 'dark' ||
-      (!('theme' in localStorage) && darkQuery.matches)
+      get("theme") === "dark" ||
+      (!("theme" in localStorage) && darkQuery.matches)
     ) {
-      element.classList.add('dark');
+      element.classList.add("dark");
     } else {
-      element.classList.remove('dark');
+      element.classList.remove("dark");
     }
   }, []);
 
@@ -41,15 +41,15 @@ const NavBar = ({ userData, openSidebar, onSidebarOpen, onSidebarClose }) => {
   );
 
   useEffect(() => {
-    if (theme === 'dark') {
-      element.classList.add('dark');
-      store('theme', 'dark');
+    if (theme === "dark") {
+      element.classList.add("dark");
+      store("theme", "dark");
     }
-    if (theme === 'light') {
-      element.classList.remove('dark');
-      store('theme', 'light');
-    } else if (theme === 'system') {
-      removeItem('theme');
+    if (theme === "light") {
+      element.classList.remove("dark");
+      store("theme", "light");
+    } else if (theme === "system") {
+      removeItem("theme");
     }
   }, [theme]);
 
@@ -58,10 +58,18 @@ const NavBar = ({ userData, openSidebar, onSidebarOpen, onSidebarClose }) => {
       toast.error(message);
     }
     if (isSuccess && user == null) {
-      navigate('/', { state: { from: location?.pathname }, replace: true });
+      navigate("/", { state: { from: location?.pathname }, replace: true });
     }
     dispatch(reset());
-  }, [isSuccess, isError, message, dispatch]);
+  }, [
+    location?.pathname,
+    navigate,
+    user,
+    isSuccess,
+    isError,
+    message,
+    dispatch,
+  ]);
 
   if (isLoading) {
     return <FullLoader />;
@@ -83,7 +91,7 @@ const NavBar = ({ userData, openSidebar, onSidebarOpen, onSidebarClose }) => {
                 >
                   <svg
                     id="toggleSidebarMobileHamburger"
-                    className={`${!openSidebar ? '' : 'hidden'} w-6 h-6`}
+                    className={`${!openSidebar ? "" : "hidden"} w-6 h-6`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +104,7 @@ const NavBar = ({ userData, openSidebar, onSidebarOpen, onSidebarClose }) => {
                   </svg>
                   <svg
                     id="toggleSidebarMobileClose"
-                    className={`${!openSidebar ? 'hidden' : ''} w-6 h-6`}
+                    className={`${!openSidebar ? "hidden" : ""} w-6 h-6`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -172,18 +180,18 @@ const NavBar = ({ userData, openSidebar, onSidebarOpen, onSidebarClose }) => {
                 </button>
 
                 <Tooltip
-                  content={`Switch to ${theme === 'light' ? 'dark' : 'light'}`}
-                  style={`${theme === 'light' ? 'dark' : 'light'}`}
+                  content={`Switch to ${theme === "light" ? "dark" : "light"}`}
+                  style={`${theme === "light" ? "dark" : "light"}`}
                 >
                   <button
                     id="theme-toggle"
                     onClick={() =>
-                      setTheme(theme === 'light' ? 'dark' : 'light')
+                      setTheme(theme === "light" ? "dark" : "light")
                     }
                     type="button"
                     className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
                   >
-                    {theme === 'light' ? (
+                    {theme === "light" ? (
                       <FaMoon size={20} />
                     ) : (
                       <BiSun size={20} />
@@ -199,8 +207,8 @@ const NavBar = ({ userData, openSidebar, onSidebarOpen, onSidebarClose }) => {
                       <Avatar
                         alt="User Profile"
                         img={
-                          userData.image != undefined &&
-                          Object.keys(userData.image).length != 0
+                          userData.image !== undefined &&
+                          Object.keys(userData.image).length !== 0
                             ? userData.image.url
                             : avatar
                         }
@@ -216,25 +224,25 @@ const NavBar = ({ userData, openSidebar, onSidebarOpen, onSidebarClose }) => {
                   >
                     <Dropdown.Header>
                       <span className="block text-sm font-bold">
-                        {' '}
-                        {userData.firstName + ' ' + userData.lastName}
+                        {" "}
+                        {userData.firstName + " " + userData.lastName}
                       </span>
                       <span className="block truncate text-sm font-medium">
-                        {' '}
+                        {" "}
                         {userData.email}
                       </span>
                     </Dropdown.Header>
-                    <Dropdown.Item as={Link} to={'/dashboard'}>
+                    <Dropdown.Item as={Link} to={"/dashboard"}>
                       Dashboard
                     </Dropdown.Item>
-                    <Dropdown.Item as={Link} to={'/profile'}>
+                    <Dropdown.Item as={Link} to={"/profile"}>
                       Profile
                     </Dropdown.Item>
-                    <Dropdown.Item as={Link} to={'/blogs'}>
+                    <Dropdown.Item as={Link} to={"/blogs"}>
                       Blogs
                     </Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item as={'button'} onClick={logoutUser}>
+                    <Dropdown.Item as={"button"} onClick={logoutUser}>
                       Logout
                     </Dropdown.Item>
                   </Dropdown>
