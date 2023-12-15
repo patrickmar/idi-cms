@@ -104,7 +104,7 @@ const Blog = () => {
             >
               <figure>
                 <img
-                  src={post.image.url}
+                  src={post?.image?.url}
                   alt={post.title}
                   className="custom-image rounded-lg"
                 />
@@ -141,7 +141,7 @@ const Blog = () => {
                   <img
                     className="w-7 h-7 rounded-full"
                     src={
-                      post?.user?.image.url ? post?.user?.image?.url : avatar
+                      post?.user?.image?.url ? post?.user?.image?.url : avatar
                     }
                     alt={post?.user?.firstName + " " + post?.user?.lastName}
                   />
